@@ -1,0 +1,6 @@
+_extends: .github
+repository:
+  name: lift-javascript
+  description: lift enhancer for details specific to the JavaScript language
+  homepage: 'https://npm.im/@form8ion/lift-javascript'
+  private: false
