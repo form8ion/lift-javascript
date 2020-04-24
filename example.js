@@ -1,3 +1,3 @@
-// remark-usage-ignore-next
-/* eslint-disable-next-line no-unused-vars */
-import liftJavascript from './lib/index.cjs';
+import {lift} from './lib/index.cjs';
+
+lift({results: {dependencies: [], devDependencies: [], scripts: {}, elintConfigs: []}});
