@@ -36,10 +36,18 @@ $ npm install @form8ion/lift-javascript --save-prod
 
 ### Example
 
-```javascript
-import {lift} from '@form8ion/lift-javascript';
+#### Import
 
-lift({results: {dependencies: [], devDependencies: [], scripts: {}, elintConfigs: []}});
+```javascript
+import {lift, test} from '@form8ion/lift-javascript';
+```
+
+#### Execute
+
+```javascript
+if (test({projectRoot: process.cwd()})) {
+  lift({results: {dependencies: [], devDependencies: [], scripts: {}, elintConfigs: []}});
+}
 ```
 
 ## Contributing
