@@ -8,7 +8,11 @@ export default async function ({projectRoot, scripts}) {
 
     await fs.writeFile(
       pathToPackageJson,
-      JSON.stringify({...existingPackageJsonContents, scripts: {...existingPackageJsonContents.scripts, ...scripts}})
+      JSON.stringify(
+        {...existingPackageJsonContents, scripts: {...existingPackageJsonContents.scripts, ...scripts}},
+        null,
+        2
+      )
     );
   }
 }

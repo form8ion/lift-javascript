@@ -31,7 +31,7 @@ suite('scripts lifter', () => {
     assert.calledWith(
       fs.writeFile,
       pathToPackageJson,
-      JSON.stringify({...packageJsonContents, scripts: {...originalScripts, ...scripts}})
+      JSON.stringify({...packageJsonContents, scripts: {...originalScripts, ...scripts}}, null, 2)
     );
   });
 
