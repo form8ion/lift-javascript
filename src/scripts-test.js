@@ -22,14 +22,16 @@ suite('scripts lifter', () => {
     const scripts = any.simpleObject();
     const originalScripts = any.simpleObject();
     const packageJsonContents = any.simpleObject();
-    fs.readFile.withArgs(pathToPackageJson, 'utf8').resolves({...packageJsonContents, scripts: originalScripts});
+    fs.readFile
+      .withArgs(pathToPackageJson, 'utf8')
+      .resolves(JSON.stringify({...packageJsonContents, scripts: originalScripts}));
 
     await liftScripts({projectRoot, scripts});
 
     assert.calledWith(
       fs.writeFile,
       pathToPackageJson,
-      {...packageJsonContents, scripts: {...originalScripts, ...scripts}}
+      JSON.stringify({...packageJsonContents, scripts: {...originalScripts, ...scripts}})
     );
   });
 
