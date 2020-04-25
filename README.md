@@ -18,6 +18,15 @@ JavaScript language
   * [Dependencies](#dependencies)
   * [Verification](#verification)
 
+## Features
+
+* Adds scripts to `package.json` from results
+
+### Coming Soon
+
+* Install dependencies from results
+* Configure eslint configs from results
+
 ## Usage
 
 <!--consumer-badges start -->
