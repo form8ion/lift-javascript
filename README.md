@@ -18,6 +18,15 @@ JavaScript language
   * [Dependencies](#dependencies)
   * [Verification](#verification)
 
+## Features
+
+* Adds scripts to `package.json` from results
+
+### Coming Soon
+
+* Install dependencies from results
+* Configure eslint configs from results
+
 ## Usage
 
 <!--consumer-badges start -->
@@ -36,8 +45,18 @@ $ npm install @form8ion/lift-javascript --save-prod
 
 ### Example
 
+#### Import
+
 ```javascript
-import liftJavascript from '@form8ion/lift-javascript';
+import {lift, test} from '@form8ion/lift-javascript';
+```
+
+#### Execute
+
+```javascript
+if (test({projectRoot: process.cwd()})) {
+  lift({results: {dependencies: [], devDependencies: [], scripts: {}, elintConfigs: []}});
+}
 ```
 
 ## Contributing

@@ -1,3 +1,15 @@
+// #### Import
 // remark-usage-ignore-next
-/* eslint-disable-next-line no-unused-vars */
-import liftJavascript from './lib/index.cjs';
+import stubbedFs from 'mock-fs';
+import {lift, test} from './lib/index.cjs';
+
+// remark-usage-ignore-next
+stubbedFs();
+
+// #### Execute
+
+if (test({projectRoot: process.cwd()})) {
+  lift({results: {dependencies: [], devDependencies: [], scripts: {}, elintConfigs: []}});
+}
+// remark-usage-ignore-next
+stubbedFs.restore();
