@@ -11,9 +11,18 @@ JavaScript language
 
 ## Table of Contents
 
+* [Features](#features)
+  * [Coming Soon](#coming-soon)
 * [Usage](#usage)
   * [Installation](#installation)
   * [Example](#example)
+    * [Import](#import)
+    * [Execute](#execute)
+  * [API](#api)
+    * [`test`](#test)
+      * [`projectRoot` __string__ (_required_)](#projectroot-string-required)
+    * [`lift`](#lift)
+      * [`projectRoot` __string__ (_required_)](#projectroot-string-required-1)
 * [Contributing](#contributing)
   * [Dependencies](#dependencies)
   * [Verification](#verification)
@@ -54,10 +63,44 @@ import {lift, test} from '@form8ion/lift-javascript';
 #### Execute
 
 ```javascript
-if (test({projectRoot: process.cwd()})) {
-  lift({results: {dependencies: [], devDependencies: [], scripts: {}, elintConfigs: []}});
-}
+const projectRoot = process.cwd();
+
+(async () => {
+  if (await test({projectRoot})) {
+    await lift({
+      results: {dependencies: [], devDependencies: [], scripts: {}, elintConfigs: []},
+      projectRoot
+    });
+  }
+})();
 ```
+
+### API
+
+#### `test`
+
+predicate function that returns `true` when the project is a JavaScript project
+
+__Arguments:__
+
+##### `projectRoot` __string__ (_required_)
+
+path to the root of the project
+
+#### `lift`
+
+function that takes results from a JavaScript sub-scaffolder and applies the
+necessary changes to an existing project
+
+__Arguments:__
+
+##### `projectRoot` __string__ (_required_)
+
+path to the root of the project
+
+##### `results` __object__ (_required_)
+
+results from sub-scaffolder
 
 ## Contributing
 

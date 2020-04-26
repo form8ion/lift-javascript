@@ -8,8 +8,16 @@ stubbedFs();
 
 // #### Execute
 
-if (test({projectRoot: process.cwd()})) {
-  lift({results: {dependencies: [], devDependencies: [], scripts: {}, elintConfigs: []}});
-}
+const projectRoot = process.cwd();
+
+(async () => {
+  if (await test({projectRoot})) {
+    await lift({
+      results: {dependencies: [], devDependencies: [], scripts: {}, elintConfigs: []},
+      projectRoot
+    });
+  }
+})();
+
 // remark-usage-ignore-next
 stubbedFs.restore();
