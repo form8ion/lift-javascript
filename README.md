@@ -1,7 +1,7 @@
 # lift-javascript
 
-[lift](https://github.com/form8ion/lift) enhancer for details specific to the
-JavaScript language
+[lift](https://github.com/form8ion/lift) [enhancer](https://github.com/form8ion/lift#enhancers-object-optional)
+for details specific to the JavaScript language
 
 <!--status-badges start -->
 
