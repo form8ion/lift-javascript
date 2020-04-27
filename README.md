@@ -24,6 +24,9 @@ for details specific to the JavaScript language
     * [`lift`](#lift)
       * [`projectRoot` __string__ (_required_)](#projectroot-string-required-1)
       * [`results` __object__ (_required_)](#results-object-required)
+    * [`configs` __object__ (_optional_)](#configs-object-optional)
+      * [`eslint` __object__ (_optional_)](#eslint-object-optional)
+        * [`scope` __string__ (_required_)](#scope-string-required)
 * [Contributing](#contributing)
   * [Dependencies](#dependencies)
   * [Verification](#verification)
@@ -102,6 +105,20 @@ path to the root of the project
 ##### `results` __object__ (_required_)
 
 results from sub-scaffolder
+
+#### `configs` __object__ (_optional_)
+
+##### `eslint` __object__ (_optional_)
+
+Config details scaffolding for [ESLint](https://eslint.org/). `eslintConfigs`
+in [results](#results-object-required) will only be processed if these details
+are provided.
+
+###### `scope` __string__ (_required_)
+
+The npm scope to be used when installing and configuring use of
+[shareable ESLint config](https://eslint.org/docs/developer-guide/shareable-configs)
+packages.
 
 ## Contributing
 
