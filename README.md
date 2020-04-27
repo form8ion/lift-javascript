@@ -23,6 +23,7 @@ JavaScript language
       * [`projectRoot` __string__ (_required_)](#projectroot-string-required)
     * [`lift`](#lift)
       * [`projectRoot` __string__ (_required_)](#projectroot-string-required-1)
+      * [`results` __object__ (_required_)](#results-object-required)
 * [Contributing](#contributing)
   * [Dependencies](#dependencies)
   * [Verification](#verification)
@@ -68,7 +69,7 @@ const projectRoot = process.cwd();
 (async () => {
   if (await test({projectRoot})) {
     await lift({
-      results: {dependencies: [], devDependencies: [], scripts: {}, elintConfigs: []},
+      results: {dependencies: [], devDependencies: [], scripts: {}, eslintConfigs: []},
       projectRoot
     });
   }

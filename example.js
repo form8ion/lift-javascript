@@ -13,7 +13,7 @@ const projectRoot = process.cwd();
 (async () => {
   if (await test({projectRoot})) {
     await lift({
-      results: {dependencies: [], devDependencies: [], scripts: {}, elintConfigs: []},
+      results: {dependencies: [], devDependencies: [], scripts: {}, eslintConfigs: []},
       projectRoot
     });
   }
