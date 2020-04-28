@@ -36,7 +36,13 @@
     "test:unit": "nyc run-s test:unit:base",
     "coverage:report": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "test:unit:base": "DEBUG=any mocha 'src/**/*-test.js'",
-    "lint:peer": "npm ls >/dev/null"
+    "lint:peer": "npm ls >/dev/null",
+    "lint:gherkin": "gherkin-lint",
+    "test:integration": "run-s 'test:integration:base -- --profile noWip'",
+    "test:integration:base": "DEBUG=any cucumber-js test/integration --profile base",
+    "test:integration:debug": "DEBUG=test run-s test:integration",
+    "test:integration:wip": "run-s 'test:integration:base -- --profile wip'",
+    "test:integration:focus": "run-s 'test:integration:base -- --profile focus'"
   },
   "devDependencies": {
     "@babel/register": "7.9.0",
@@ -49,7 +55,9 @@
     "ban-sensitive-files": "1.9.7",
     "chai": "4.2.0",
     "codecov": "3.6.5",
+    "cucumber": "^6.0.5",
     "cz-conventional-changelog": "3.1.0",
+    "gherkin-lint": "^4.0.1",
     "husky": "4.2.5",
     "lockfile-lint": "4.2.2",
     "mocha": "7.1.2",
