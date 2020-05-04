@@ -57,7 +57,7 @@
     "chai": "4.2.0",
     "codecov": "3.6.5",
     "cucumber": "6.0.5",
-    "cz-conventional-changelog": "3.1.0",
+    "cz-conventional-changelog": "3.2.0",
     "gherkin-lint": "4.0.1",
     "husky": "4.2.5",
     "lockfile-lint": "4.2.2",
