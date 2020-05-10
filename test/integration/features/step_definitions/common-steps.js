@@ -6,10 +6,6 @@ import {After, Before, When} from 'cucumber';
 
 Before(async function () {
   this.existingScripts = any.simpleObject();
-
-  stubbedFs({
-    'package.json': JSON.stringify({scripts: this.existingScripts})
-  });
 });
 
 After(function () {
@@ -17,8 +13,15 @@ After(function () {
 });
 
 When('the scaffolder results are processed', async function () {
+  stubbedFs({
+    'package.json': JSON.stringify({
+      scripts: this.existingScripts,
+      keywords: this.existingKeywords
+    })
+  });
+
   await lift({
     projectRoot: process.cwd(),
-    results: {scripts: this.scriptsResults}
+    results: {scripts: this.scriptsResults, tags: this.tagsResults}
   });
 });

@@ -1,8 +1,8 @@
 import {info} from '@travi/cli-messages';
-import liftScripts from './scripts';
+import liftScripts from './package';
 
-export default async function ({results, projectRoot}) {
+export default async function ({results: {scripts, tags}, projectRoot}) {
   info('Lifting JavaScript-specific details');
 
-  await liftScripts({projectRoot, scripts: results.scripts});
+  await liftScripts({projectRoot, scripts, tags});
 }

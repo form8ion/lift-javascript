@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import any from '@travi/any';
 import {assert} from 'chai';
-import * as scriptsLifter from './scripts';
+import * as scriptsLifter from './package';
 import lift from './lift';
 
 suite('lift', () => {
@@ -18,10 +18,11 @@ suite('lift', () => {
   test('that results specific to js projects are lifted', async () => {
     const projectRoot = any.string();
     const scripts = any.simpleObject();
-    const results = {...any.simpleObject(), scripts};
+    const tags = any.listOf(any.word);
+    const results = {...any.simpleObject(), scripts, tags};
 
     await lift({projectRoot, results});
 
-    assert.calledWith(scriptsLifter.default, {projectRoot, scripts});
+    assert.calledWith(scriptsLifter.default, {projectRoot, scripts, tags});
   });
 });
