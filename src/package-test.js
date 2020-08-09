@@ -1,4 +1,5 @@
 import {promises as fs} from 'fs';
+import * as jsCore from '@form8ion/javascript-core';
 import sinon from 'sinon';
 import {assert} from 'chai';
 import any from '@travi/any';
@@ -13,6 +14,7 @@ suite('package.json lifter', () => {
   setup(() => {
     sandbox = sinon.createSandbox();
 
+    sandbox.stub(jsCore, 'installDependencies');
     sandbox.stub(fs, 'readFile');
     sandbox.stub(fs, 'writeFile');
   });
@@ -67,6 +69,32 @@ suite('package.json lifter', () => {
         pathToPackageJson,
         JSON.stringify({...packageJsonContents, scripts: {}, keywords: [...existingKeywords, ...tags]}, null, 2)
       );
+    });
+  });
+
+  suite('dependencies', () => {
+    const dependencies = any.listOf(any.word);
+    const devDependencies = any.listOf(any.word);
+
+    test('that dependencies and devDependencies are installed when provided', async () => {
+      await liftPackage({projectRoot, dependencies, devDependencies});
+
+      assert.calledWith(jsCore.installDependencies, dependencies, jsCore.PROD_DEPENDENCY_TYPE);
+      assert.calledWith(jsCore.installDependencies, devDependencies, jsCore.DEV_DEPENDENCY_TYPE);
+    });
+
+    test('that only dependencies are installed when no dev-dependencies are provided', async () => {
+      await liftPackage({projectRoot, dependencies});
+
+      assert.calledWith(jsCore.installDependencies, dependencies, jsCore.PROD_DEPENDENCY_TYPE);
+      assert.calledWith(jsCore.installDependencies, [], jsCore.DEV_DEPENDENCY_TYPE);
+    });
+
+    test('that only dev-dpendencies are installed when no dependencies are provided', async () => {
+      await liftPackage({projectRoot, devDependencies});
+
+      assert.calledWith(jsCore.installDependencies, devDependencies, jsCore.DEV_DEPENDENCY_TYPE);
+      assert.calledWith(jsCore.installDependencies, [], jsCore.PROD_DEPENDENCY_TYPE);
     });
   });
 

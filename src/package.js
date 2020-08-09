@@ -1,7 +1,8 @@
 import {promises as fs} from 'fs';
 import {info} from '@travi/cli-messages';
+import {installDependencies, PROD_DEPENDENCY_TYPE, DEV_DEPENDENCY_TYPE} from '@form8ion/javascript-core';
 
-export default async function ({projectRoot, scripts, tags}) {
+export default async function ({projectRoot, scripts, tags, dependencies, devDependencies}) {
   if (scripts || tags) {
     info('Updating `package.json`', {level: 'secondary'});
 
@@ -22,4 +23,7 @@ export default async function ({projectRoot, scripts, tags}) {
       )
     );
   }
+
+  await installDependencies(dependencies || [], PROD_DEPENDENCY_TYPE);
+  await installDependencies(devDependencies || [], DEV_DEPENDENCY_TYPE);
 }
