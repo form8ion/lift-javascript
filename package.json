@@ -52,7 +52,7 @@
     "@form8ion/eslint-config-cucumber": "1.4.0",
     "@form8ion/eslint-config-mocha": "1.2.9",
     "@form8ion/remark-lint-preset": "1.0.10",
-    "@travi/any": "2.0.12",
+    "@travi/any": "2.0.13",
     "ban-sensitive-files": "1.9.10",
     "chai": "4.2.0",
     "codecov": "3.7.2",
