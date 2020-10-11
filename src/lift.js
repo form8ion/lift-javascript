@@ -2,6 +2,10 @@ import {info, warn} from '@travi/cli-messages';
 import liftPackage from './package';
 import liftEslint from './eslint';
 
+function configIsProvidedForEslint(configs) {
+  return configs && configs.eslint;
+}
+
 export default async function ({
   projectRoot,
   configs,
@@ -11,7 +15,7 @@ export default async function ({
 
   await liftPackage({projectRoot, scripts, tags, dependencies, devDependencies});
 
-  if (configs && configs.eslint) return liftEslint({configs: eslintConfigs, scope: configs.eslint.scope});
+  if (configIsProvidedForEslint(configs)) return liftEslint({configs: eslintConfigs, scope: configs.eslint.scope});
 
   warn('Config for ESLint not provided. Skipping ESLint configuration');
 

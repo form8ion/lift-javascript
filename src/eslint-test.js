@@ -9,16 +9,31 @@ suite('eslint lifter', () => {
     await assert.throws(() => liftEslint({}), 'No scope provided for ESLint configs');
   });
 
-  test('that a `nextStep` is defined', () => {
-    const configs = any.listOf(any.word);
-
-    assert.deepEqual(
-      liftEslint({configs, scope}).nextSteps,
-      [{summary: `add eslint configs for: ${configs.join(', ')}`}]
-    );
-  });
-
   test('that no `nextStep` is added if no configs are provided', () => {
     assert.isUndefined(liftEslint({scope}).nextSteps);
+  });
+
+  test('that dependencies are listed for requested simple configs', () => {
+    const configs = any.listOf(any.word);
+
+    const {nextSteps, devDependencies} = liftEslint({configs, scope});
+
+    assert.deepEqual(
+      nextSteps,
+      [{summary: `extend the following additional ESLint configs: ${configs.join(', ')}`}]
+    );
+    assert.deepEqual(devDependencies, configs.map(config => `${scope}/eslint-config-${config}`));
+  });
+
+  test('that dependencies are listed for requested complex configs', () => {
+    const configs = any.listOf(() => ({...any.simpleObject(), name: any.word()}));
+
+    const {nextSteps, devDependencies} = liftEslint({configs, scope});
+
+    assert.deepEqual(
+      nextSteps,
+      [{summary: `extend the following additional ESLint configs: ${configs.join(', ')}`}]
+    );
+    assert.deepEqual(devDependencies, configs.map(config => `${scope}/eslint-config-${config.name}`));
   });
 });
