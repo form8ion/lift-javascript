@@ -72,8 +72,9 @@ const projectRoot = process.cwd();
 (async () => {
   if (await test({projectRoot})) {
     await lift({
-      results: {dependencies: [], devDependencies: [], scripts: {}, eslintConfigs: []},
-      projectRoot
+      projectRoot,
+      configs: {eslint: {scope: '@foo'}},
+      results: {dependencies: [], devDependencies: [], scripts: {}, eslintConfigs: []}
     });
   }
 })();
