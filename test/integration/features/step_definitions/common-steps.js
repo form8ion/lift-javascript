@@ -31,7 +31,7 @@ When('the scaffolder results are processed', async function () {
               node_modules: {
                 'color-name': {'index.js': await fs.readFile(resolve(...pathToNodeModules, 'color-name/index.js'))}
               },
-              'ansi-styles@4.2.1': {
+              'ansi-styles@4.3.0': {
                 node_modules: {
                   'color-convert': {
                     'index.js': await fs.readFile(resolve(...pathToNodeModules, 'color-convert/index.js')),
