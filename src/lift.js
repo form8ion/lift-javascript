@@ -13,11 +13,20 @@ export default async function ({
 }) {
   info('Lifting JavaScript-specific details');
 
-  await liftPackage({projectRoot, scripts, tags, dependencies, devDependencies});
+  if (configIsProvidedForEslint(configs)) {
+    const {
+      nextSteps,
+      devDependencies: eslintDevDependencies
+    } = await liftEslint({configs: eslintConfigs, scope: configs.eslint.scope});
 
-  if (configIsProvidedForEslint(configs)) return liftEslint({configs: eslintConfigs, scope: configs.eslint.scope});
+    await liftPackage({projectRoot, scripts, tags, dependencies, devDependencies, eslintDevDependencies});
+
+    return {nextSteps};
+  }
 
   warn('Config for ESLint not provided. Skipping ESLint configuration');
+
+  await liftPackage({projectRoot, scripts, tags, dependencies, devDependencies});
 
   return {};
 }

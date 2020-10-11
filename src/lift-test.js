@@ -26,13 +26,22 @@ suite('lift', () => {
 
   test('that results specific to js projects are lifted', async () => {
     const scope = any.word();
-    const eslintLiftResults = {...any.simpleObject(), nextSteps: any.listOf(any.simpleObject)};
+    const eslintDevDependencies = any.listOf(any.word);
+    const eslintNextSteps = any.listOf(any.simpleObject);
+    const eslintLiftResults = {
+      ...any.simpleObject(),
+      nextSteps: eslintNextSteps,
+      devDependencies: eslintDevDependencies
+    };
     eslintLifter.default.withArgs({configs: eslintConfigs, scope}).resolves(eslintLiftResults);
 
     const liftResults = await lift({projectRoot, results, configs: {eslint: {scope}}});
 
-    assert.deepEqual(liftResults, eslintLiftResults);
-    assert.calledWith(packageLifter.default, {projectRoot, scripts, tags, dependencies, devDependencies});
+    assert.deepEqual(liftResults, {nextSteps: eslintNextSteps});
+    assert.calledWith(
+      packageLifter.default,
+      {projectRoot, scripts, tags, dependencies, devDependencies, eslintDevDependencies}
+    );
   });
 
   test('that eslint-configs are not processed if configs are not provided', async () => {

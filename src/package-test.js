@@ -75,12 +75,24 @@ suite('package.json lifter', () => {
   suite('dependencies', () => {
     const dependencies = any.listOf(any.word);
     const devDependencies = any.listOf(any.word);
+    const eslintDevDependencies = any.listOf(any.word);
 
     test('that dependencies and devDependencies are installed when provided', async () => {
       await liftPackage({projectRoot, dependencies, devDependencies});
 
       assert.calledWith(jsCore.installDependencies, dependencies, jsCore.PROD_DEPENDENCY_TYPE);
       assert.calledWith(jsCore.installDependencies, devDependencies, jsCore.DEV_DEPENDENCY_TYPE);
+    });
+
+    test('that eslint devDependencies are added when provided', async () => {
+      await liftPackage({projectRoot, dependencies, devDependencies, eslintDevDependencies});
+
+      assert.calledWith(jsCore.installDependencies, dependencies, jsCore.PROD_DEPENDENCY_TYPE);
+      assert.calledWith(
+        jsCore.installDependencies,
+        [...devDependencies, ...eslintDevDependencies],
+        jsCore.DEV_DEPENDENCY_TYPE
+      );
     });
 
     test('that only dependencies are installed when no dev-dependencies are provided', async () => {
