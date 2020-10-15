@@ -45,7 +45,7 @@
     "test:integration:focus": "run-s 'test:integration:base -- --profile focus'"
   },
   "devDependencies": {
-    "@babel/register": "7.12.0",
+    "@babel/register": "7.12.1",
     "@form8ion/babel-preset": "1.6.32",
     "@form8ion/commitlint-config": "1.0.14",
     "@form8ion/core": "1.0.0",
