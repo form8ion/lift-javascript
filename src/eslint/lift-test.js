@@ -1,6 +1,6 @@
 import {assert} from 'chai';
 import any from '@travi/any';
-import liftEslint from './eslint';
+import liftEslint from './lift';
 
 suite('eslint lifter', () => {
   const scope = any.word();

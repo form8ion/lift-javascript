@@ -2,7 +2,7 @@ import sinon from 'sinon';
 import any from '@travi/any';
 import {assert} from 'chai';
 import * as packageLifter from './package';
-import * as eslintLifter from './eslint';
+import * as eslintLifter from './eslint/lift';
 import lift from './lift';
 
 suite('lift', () => {
