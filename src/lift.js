@@ -17,7 +17,7 @@ export default async function ({
     const {
       nextSteps,
       devDependencies: eslintDevDependencies
-    } = await liftEslint({configs: eslintConfigs, scope: configs.eslint.scope});
+    } = await liftEslint({configs: eslintConfigs, scope: configs.eslint.scope, projectRoot});
 
     await liftPackage({projectRoot, scripts, tags, dependencies, devDependencies, eslintDevDependencies});
 

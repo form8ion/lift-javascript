@@ -33,7 +33,7 @@ suite('lift', () => {
       nextSteps: eslintNextSteps,
       devDependencies: eslintDevDependencies
     };
-    eslintLifter.default.withArgs({configs: eslintConfigs, scope}).resolves(eslintLiftResults);
+    eslintLifter.default.withArgs({configs: eslintConfigs, scope, projectRoot}).resolves(eslintLiftResults);
 
     const liftResults = await lift({projectRoot, results, configs: {eslint: {scope}}});
 
