@@ -24,7 +24,7 @@ export default async function ({
     return {nextSteps};
   }
 
-  warn('Config for ESLint not provided. Skipping ESLint configuration');
+  if (eslintConfigs) warn('Config for ESLint not provided. Skipping ESLint configuration');
 
   await liftPackage({projectRoot, scripts, tags, dependencies, devDependencies});
 
