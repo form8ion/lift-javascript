@@ -17,7 +17,11 @@ Given('no existing eslint config file is present', async function () {
 Given('an existing eslint config file is present', async function () {
   this.eslintConfigScope = eslintConfigScope;
 
-  await fs.writeFile(pathToYamlConfig, safeDump({extends: eslintConfigScope}));
+  await fs.writeFile(pathToYamlConfig, safeDump({extends: [eslintConfigScope]}));
+});
+
+Given('the results include eslint configs', async function () {
+  this.eslintConfigs = any.listOf(any.word);
 });
 
 Then('no eslint config file exists', async function () {
@@ -27,5 +31,12 @@ Then('no eslint config file exists', async function () {
 Then('the yaml eslint config file contains the expected config', async function () {
   const config = safeLoad(await fs.readFile(pathToYamlConfig));
 
-  assert.deepEqual(config.extends, eslintConfigScope);
+  if (this.eslintConfigs) {
+    assert.deepEqual(
+      config.extends,
+      [eslintConfigScope, ...this.eslintConfigs.map(cfg => `${eslintConfigScope}/${cfg}`)]
+    );
+  } else {
+    assert.deepEqual(config.extends, eslintConfigScope);
+  }
 });

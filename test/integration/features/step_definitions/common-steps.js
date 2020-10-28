@@ -37,7 +37,7 @@ When('the scaffolder results are processed', async function () {
 
   await lift({
     projectRoot: process.cwd(),
-    results: {scripts: this.scriptsResults, tags: this.tagsResults},
+    results: {scripts: this.scriptsResults, tags: this.tagsResults, eslintConfigs: this.eslintConfigs},
     ...this.eslintConfigScope && {configs: {eslint: {scope: this.eslintConfigScope}}}
   });
 });

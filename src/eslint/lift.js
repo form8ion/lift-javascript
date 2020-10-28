@@ -1,4 +1,5 @@
 import {info} from '@travi/cli-messages';
+import updateConfig from './config';
 
 function getConfigToPackageNameMapper(scope) {
   return config => {
@@ -8,17 +9,19 @@ function getConfigToPackageNameMapper(scope) {
   };
 }
 
-export default function ({configs, scope}) {
+export default async function ({configs, scope, projectRoot}) {
   info('Configuring ESLint', {level: 'secondary'});
 
   if (!scope) throw new Error('No scope provided for ESLint configs');
 
+  if (!configs) return {};
+
+  await updateConfig({projectRoot, scope, configs});
+
   const mapConfigNameToPackageName = getConfigToPackageNameMapper(scope);
 
   return {
-    ...configs && {
-      devDependencies: configs.map(mapConfigNameToPackageName),
-      nextSteps: [{summary: `extend the following additional ESLint configs: ${configs.join(', ')}`}]
-    }
+    devDependencies: configs.map(mapConfigNameToPackageName),
+    nextSteps: [{summary: `extend the following additional ESLint configs: ${configs.join(', ')}`}]
   };
 }

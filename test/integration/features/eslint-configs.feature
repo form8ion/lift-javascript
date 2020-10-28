@@ -7,5 +7,6 @@ Feature: ESLint Configs
 
   Scenario: existing yaml config
     Given an existing eslint config file is present
+    And the results include eslint configs
     When the scaffolder results are processed
     Then the yaml eslint config file contains the expected config
