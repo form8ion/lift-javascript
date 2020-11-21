@@ -26,9 +26,10 @@ export default async function ({projectRoot, scripts, tags, dependencies, devDep
 
   info('Installing dependencies');
 
-  await installDependencies(dependencies || [], PROD_DEPENDENCY_TYPE);
+  await installDependencies(dependencies || [], PROD_DEPENDENCY_TYPE, projectRoot);
   await installDependencies(
     [...devDependencies || [], ...eslintDevDependencies || []],
-    DEV_DEPENDENCY_TYPE
+    DEV_DEPENDENCY_TYPE,
+    projectRoot
   );
 }
