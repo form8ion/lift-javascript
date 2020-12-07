@@ -62,7 +62,7 @@
     "cucumber": "6.0.5",
     "cz-conventional-changelog": "3.3.0",
     "gherkin-lint": "4.1.3",
-    "husky": "4.3.4",
+    "husky": "5.0.4",
     "js-yaml": "3.14.0",
     "lockfile-lint": "4.3.7",
     "mocha": "8.2.1",
