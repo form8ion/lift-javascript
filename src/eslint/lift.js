@@ -20,8 +20,5 @@ export default async function ({configs, scope, projectRoot}) {
 
   const mapConfigNameToPackageName = getConfigToPackageNameMapper(scope);
 
-  return {
-    devDependencies: configs.map(mapConfigNameToPackageName),
-    nextSteps: [{summary: `extend the following additional ESLint configs: ${configs.join(', ')}`}]
-  };
+  return {devDependencies: configs.map(mapConfigNameToPackageName)};
 }

@@ -30,12 +30,8 @@ suite('eslint lifter', () => {
   test('that dependencies are listed for requested simple configs', async () => {
     const configs = any.listOf(any.word);
 
-    const {nextSteps, devDependencies} = await liftEslint({configs, scope, projectRoot});
+    const {devDependencies} = await liftEslint({configs, scope, projectRoot});
 
-    assert.deepEqual(
-      nextSteps,
-      [{summary: `extend the following additional ESLint configs: ${configs.join(', ')}`}]
-    );
     assert.deepEqual(devDependencies, configs.map(cfg => `${scope}/eslint-config-${cfg}`));
     assert.calledWith(config.default, {projectRoot, configs, scope});
   });
@@ -43,12 +39,8 @@ suite('eslint lifter', () => {
   test('that dependencies are listed for requested complex configs', async () => {
     const configs = any.listOf(() => ({...any.simpleObject(), name: any.word()}));
 
-    const {nextSteps, devDependencies} = await liftEslint({configs, scope, projectRoot});
+    const {devDependencies} = await liftEslint({configs, scope, projectRoot});
 
-    assert.deepEqual(
-      nextSteps,
-      [{summary: `extend the following additional ESLint configs: ${configs.join(', ')}`}]
-    );
     assert.deepEqual(devDependencies, configs.map(cfg => `${scope}/eslint-config-${cfg.name}`));
     assert.calledWith(config.default, {projectRoot, scope, configs});
   });

@@ -28,15 +28,17 @@ Then('no eslint config file exists', async function () {
   assert.isFalse(await fileExists(pathToYamlConfig));
 });
 
-Then('the yaml eslint config file contains the expected config', async function () {
+Then('no updates are applied to the existing yaml config file', async function () {
   const config = safeLoad(await fs.readFile(pathToYamlConfig));
 
-  if (this.eslintConfigs) {
-    assert.deepEqual(
-      config.extends,
-      [eslintConfigScope, ...this.eslintConfigs.map(cfg => `${eslintConfigScope}/${cfg}`)]
-    );
-  } else {
-    assert.deepEqual(config.extends, eslintConfigScope);
-  }
+  assert.deepEqual(config.extends, [eslintConfigScope]);
+});
+
+Then('the yaml eslint config file is updated with the provided simple configs', async function () {
+  const config = safeLoad(await fs.readFile(pathToYamlConfig));
+
+  assert.deepEqual(
+    config.extends,
+    [eslintConfigScope, ...this.eslintConfigs.map(cfg => `${eslintConfigScope}/${cfg}`)]
+  );
 });
