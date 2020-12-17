@@ -26,7 +26,6 @@
     "generate:md": "remark . --output",
     "pregenerate:md": "npm run build",
     "lint:sensitive": "ban",
-    "disabled:lint:travis": "NODE_DEBUG=request travis-lint .travis.yml",
     "clean": "rimraf ./lib",
     "prebuild": "run-s clean",
     "build": "npm-run-all --print-label --parallel build:*",
@@ -76,8 +75,7 @@
     "rollup": "2.35.1",
     "rollup-plugin-auto-external": "2.0.0",
     "sinon": "9.2.2",
-    "testdouble": "3.16.1",
-    "travis-lint": "1.0.0"
+    "testdouble": "3.16.1"
   },
   "dependencies": {
     "@form8ion/javascript-core": "2.7.1",
