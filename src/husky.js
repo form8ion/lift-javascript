@@ -3,7 +3,7 @@ import {fileExists} from '@form8ion/core';
 import execa from '../thirdparty-wrappers/execa';
 
 export default async function ({projectRoot}) {
-  const [huskyVersionDetails, huskyV4ConfigExists] = await Promise.all([
+  const [{stdout: huskyVersionDetails}, huskyV4ConfigExists] = await Promise.all([
     await execa('npm', ['ls', 'husky', '--json']),
     await fileExists(`${projectRoot}/.huskyrc.json`)
   ]);

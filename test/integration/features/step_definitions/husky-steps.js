@@ -8,17 +8,17 @@ import {assert} from 'chai';
 Given('husky v5 is installed', async function () {
   td
     .when(this.execa('npm', ['ls', 'husky', '--json']))
-    .thenResolve(JSON.stringify({dependencies: {husky: {version: '5.0.0'}}}));
+    .thenResolve({stdout: JSON.stringify({dependencies: {husky: {version: '5.0.0'}}})});
 });
 
 Given('husky v4 is installed', async function () {
   td
     .when(this.execa('npm', ['ls', 'husky', '--json']))
-    .thenResolve(JSON.stringify({dependencies: {husky: {version: '4.5.6'}}}));
+    .thenResolve({stdout: JSON.stringify({dependencies: {husky: {version: '4.5.6'}}})});
 });
 
 Given('husky is not installed', async function () {
-  td.when(this.execa('npm', ['ls', 'husky', '--json'])).thenResolve(JSON.stringify({}));
+  td.when(this.execa('npm', ['ls', 'husky', '--json'])).thenResolve({stdout: JSON.stringify({})});
 });
 
 Given('husky config is in v4 format', async function () {

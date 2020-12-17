@@ -22,7 +22,7 @@ suite('husky', () => {
     core.fileExists.withArgs(`${projectRoot}/.huskyrc.json`).resolves(true);
     execa.default
       .withArgs('npm', ['ls', 'husky', '--json'])
-      .resolves(JSON.stringify({dependencies: {husky: {version: '5.0.0'}}}));
+      .resolves({stdout: JSON.stringify({dependencies: {husky: {version: '5.0.0'}}})});
 
     assert.deepEqual(
       await liftHusky({projectRoot}),
@@ -34,7 +34,7 @@ suite('husky', () => {
     core.fileExists.withArgs(`${projectRoot}/.huskyrc.json`).resolves(true);
     execa.default
       .withArgs('npm', ['ls', 'husky', '--json'])
-      .resolves(JSON.stringify({dependencies: {husky: {version: '5.0.1'}}}));
+      .resolves({stdout: JSON.stringify({dependencies: {husky: {version: '5.0.1'}}})});
 
     assert.deepEqual(
       await liftHusky({projectRoot}),
@@ -46,7 +46,7 @@ suite('husky', () => {
     core.fileExists.withArgs(`${projectRoot}/.huskyrc.json`).resolves(true);
     execa.default
       .withArgs('npm', ['ls', 'husky', '--json'])
-      .resolves(JSON.stringify({dependencies: {husky: {version: '4.5.6'}}}));
+      .resolves({stdout: JSON.stringify({dependencies: {husky: {version: '4.5.6'}}})});
 
     assert.deepEqual(await liftHusky({projectRoot}), {});
   });
@@ -54,14 +54,14 @@ suite('husky', () => {
   test('that no next-step is listed when v5 is installed and v5 config exists', async () => {
     execa.default
       .withArgs('npm', ['ls', 'husky', '--json'])
-      .resolves(JSON.stringify({dependencies: {husky: {version: '5.6.7'}}}));
+      .resolves({stdout: JSON.stringify({dependencies: {husky: {version: '5.6.7'}}})});
     core.fileExists.resolves(false);
 
     assert.deepEqual(await liftHusky({projectRoot}), {});
   });
 
   test('that not having husky installed does not result in an error', async () => {
-    execa.default.withArgs('npm', ['ls', 'husky', '--json']).resolves(JSON.stringify({}));
+    execa.default.withArgs('npm', ['ls', 'husky', '--json']).resolves({stdout: JSON.stringify({})});
     core.fileExists.resolves(any.boolean());
 
     await liftHusky({projectRoot});
