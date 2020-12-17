@@ -1,6 +1,8 @@
 import {info, warn} from '@travi/cli-messages';
+import deepmerge from 'deepmerge';
 import liftPackage from './package';
 import liftEslint from './eslint';
+import liftHusky from './husky';
 
 function configIsProvidedForEslint(configs) {
   return configs && configs.eslint;
@@ -13,6 +15,8 @@ export default async function ({
 }) {
   info('Lifting JavaScript-specific details');
 
+  const huskyResults = await liftHusky({projectRoot});
+
   if (configIsProvidedForEslint(configs)) {
     const {
       nextSteps,
@@ -21,12 +25,12 @@ export default async function ({
 
     await liftPackage({projectRoot, scripts, tags, dependencies, devDependencies, eslintDevDependencies});
 
-    return {nextSteps};
+    return deepmerge({nextSteps}, huskyResults);
   }
 
   if (eslintConfigs) warn('Config for ESLint not provided. Skipping ESLint configuration');
 
   await liftPackage({projectRoot, scripts, tags, dependencies, devDependencies});
 
-  return {};
+  return huskyResults;
 }
