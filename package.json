@@ -38,8 +38,8 @@
     "lint:peer": "npm ls >/dev/null",
     "lint:gherkin": "gherkin-lint",
     "test:integration": "preview && run-s 'test:integration:base -- --profile noWip'",
-    "test:integration:base": "NODE_OPTIONS=--enable-source-maps DEBUG=any cucumber-js test/integration --profile base",
-    "test:integration:debug": "DEBUG=test run-s test:integration",
+    "test:integration:base": "DEBUG=any cucumber-js test/integration --profile base",
+    "test:integration:debug": "NODE_OPTIONS=--enable-source-maps DEBUG=test run-s test:integration",
     "test:integration:wip": "run-s 'test:integration:base -- --profile wip'",
     "test:integration:focus": "run-s 'test:integration:base -- --profile focus'"
   },
