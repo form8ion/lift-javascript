@@ -2,6 +2,7 @@ import sinon from 'sinon';
 import any from '@travi/any';
 import {assert} from 'chai';
 import * as packageLifter from './package';
+import * as huskyLifter from './husky';
 import * as eslintLifter from './eslint/lift';
 import lift from './lift';
 
@@ -14,12 +15,17 @@ suite('lift', () => {
   const dependencies = any.listOf(any.word);
   const devDependencies = any.listOf(any.word);
   const results = {...any.simpleObject(), scripts, tags, eslintConfigs, dependencies, devDependencies};
+  const huskyNextSteps = any.listOf(any.simpleObject);
+  const huskyLiftResults = {nextSteps: huskyNextSteps};
 
   setup(() => {
     sandbox = sinon.createSandbox();
 
     sandbox.stub(packageLifter, 'default');
     sandbox.stub(eslintLifter, 'default');
+    sandbox.stub(huskyLifter, 'default');
+
+    huskyLifter.default.withArgs({projectRoot}).resolves(huskyLiftResults);
   });
 
   teardown(() => sandbox.restore());
@@ -37,7 +43,7 @@ suite('lift', () => {
 
     const liftResults = await lift({projectRoot, results, configs: {eslint: {scope}}});
 
-    assert.deepEqual(liftResults, {nextSteps: eslintNextSteps});
+    assert.deepEqual(liftResults, {nextSteps: [...eslintNextSteps, ...huskyNextSteps]});
     assert.calledWith(
       packageLifter.default,
       {projectRoot, scripts, tags, dependencies, devDependencies, eslintDevDependencies}
@@ -47,12 +53,12 @@ suite('lift', () => {
   test('that eslint-configs are not processed if configs are not provided', async () => {
     const liftResults = await lift({projectRoot, results});
 
-    assert.deepEqual(liftResults, {});
+    assert.deepEqual(liftResults, {nextSteps: huskyNextSteps});
   });
 
   test('that eslint-configs are not processed if config for eslint is not provided', async () => {
     const liftResults = await lift({projectRoot, results, configs: any.simpleObject()});
 
-    assert.deepEqual(liftResults, {});
+    assert.deepEqual(liftResults, {nextSteps: huskyNextSteps});
   });
 });

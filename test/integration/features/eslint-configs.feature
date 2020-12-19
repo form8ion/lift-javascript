@@ -7,6 +7,7 @@ Feature: ESLint Configs
 
   Scenario: No existing config, but updates provided
     Given no existing eslint config file is present
+    And husky is not installed
     And the results include eslint configs
     When the scaffolder results are processed
     Then no eslint config file exists
@@ -18,6 +19,7 @@ Feature: ESLint Configs
 
   Scenario: existing yaml config with updates
     Given an existing eslint config file is present
+    And husky is not installed
     And the results include eslint configs
     When the scaffolder results are processed
     Then the yaml eslint config file is updated with the provided simple configs
