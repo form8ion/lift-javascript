@@ -18,8 +18,8 @@ suite('eslint config', () => {
     sandbox.stub(core, 'fileExists');
     sandbox.stub(fs, 'readFile');
     sandbox.stub(fs, 'writeFile');
-    sandbox.stub(jsYaml, 'safeLoad');
-    sandbox.stub(jsYaml, 'safeDump');
+    sandbox.stub(jsYaml, 'load');
+    sandbox.stub(jsYaml, 'dump');
     sandbox.stub(cliMessages, 'warn');
   });
 
@@ -46,8 +46,8 @@ suite('eslint config', () => {
     const scope = any.word();
     core.fileExists.withArgs(pathToConfigFile).resolves(true);
     fs.readFile.withArgs(pathToConfigFile).resolves(existingFile);
-    jsYaml.safeLoad.withArgs(existingFile).returns(existingConfig);
-    jsYaml.safeDump
+    jsYaml.load.withArgs(existingFile).returns(existingConfig);
+    jsYaml.dump
       .withArgs({
         ...existingConfig,
         extends: [...existingConfigs, ...providedConfigs.map(config => `${scope}/${config}`)]
