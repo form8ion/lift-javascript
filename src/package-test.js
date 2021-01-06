@@ -76,37 +76,70 @@ suite('package.json lifter', () => {
     const dependencies = any.listOf(any.word);
     const devDependencies = any.listOf(any.word);
     const eslintDevDependencies = any.listOf(any.word);
+    const packageManager = any.word();
 
     test('that dependencies and devDependencies are installed when provided', async () => {
-      await liftPackage({projectRoot, dependencies, devDependencies});
+      await liftPackage({projectRoot, dependencies, devDependencies, packageManager});
 
-      assert.calledWith(jsCore.installDependencies, dependencies, jsCore.PROD_DEPENDENCY_TYPE, projectRoot);
-      assert.calledWith(jsCore.installDependencies, devDependencies, jsCore.DEV_DEPENDENCY_TYPE, projectRoot);
+      assert.calledWith(
+        jsCore.installDependencies,
+        dependencies,
+        jsCore.PROD_DEPENDENCY_TYPE,
+        projectRoot,
+        packageManager
+      );
+      assert.calledWith(
+        jsCore.installDependencies,
+        devDependencies,
+        jsCore.DEV_DEPENDENCY_TYPE,
+        projectRoot,
+        packageManager
+      );
     });
 
     test('that eslint devDependencies are added when provided', async () => {
-      await liftPackage({projectRoot, dependencies, devDependencies, eslintDevDependencies});
+      await liftPackage({projectRoot, dependencies, devDependencies, eslintDevDependencies, packageManager});
 
-      assert.calledWith(jsCore.installDependencies, dependencies, jsCore.PROD_DEPENDENCY_TYPE);
+      assert.calledWith(
+        jsCore.installDependencies,
+        dependencies,
+        jsCore.PROD_DEPENDENCY_TYPE,
+        projectRoot,
+        packageManager
+      );
       assert.calledWith(
         jsCore.installDependencies,
         [...devDependencies, ...eslintDevDependencies],
-        jsCore.DEV_DEPENDENCY_TYPE
+        jsCore.DEV_DEPENDENCY_TYPE,
+        projectRoot,
+        packageManager
       );
     });
 
     test('that only dependencies are installed when no dev-dependencies are provided', async () => {
-      await liftPackage({projectRoot, dependencies});
+      await liftPackage({projectRoot, dependencies, packageManager});
 
-      assert.calledWith(jsCore.installDependencies, dependencies, jsCore.PROD_DEPENDENCY_TYPE, projectRoot);
-      assert.calledWith(jsCore.installDependencies, [], jsCore.DEV_DEPENDENCY_TYPE, projectRoot);
+      assert.calledWith(
+        jsCore.installDependencies,
+        dependencies,
+        jsCore.PROD_DEPENDENCY_TYPE,
+        projectRoot,
+        packageManager
+      );
+      assert.calledWith(jsCore.installDependencies, [], jsCore.DEV_DEPENDENCY_TYPE, projectRoot, packageManager);
     });
 
-    test('that only dev-dpendencies are installed when no dependencies are provided', async () => {
-      await liftPackage({projectRoot, devDependencies});
+    test('that only dev-dependencies are installed when no dependencies are provided', async () => {
+      await liftPackage({projectRoot, devDependencies, packageManager});
 
-      assert.calledWith(jsCore.installDependencies, devDependencies, jsCore.DEV_DEPENDENCY_TYPE, projectRoot);
-      assert.calledWith(jsCore.installDependencies, [], jsCore.PROD_DEPENDENCY_TYPE, projectRoot);
+      assert.calledWith(
+        jsCore.installDependencies,
+        devDependencies,
+        jsCore.DEV_DEPENDENCY_TYPE,
+        projectRoot,
+        packageManager
+      );
+      assert.calledWith(jsCore.installDependencies, [], jsCore.PROD_DEPENDENCY_TYPE, projectRoot, packageManager);
     });
   });
 

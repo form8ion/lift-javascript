@@ -11,7 +11,7 @@ function configIsProvidedForEslint(configs) {
 export default async function ({
   projectRoot,
   configs,
-  results: {scripts, tags, eslintConfigs, dependencies, devDependencies}
+  results: {scripts, tags, eslintConfigs, dependencies, devDependencies, packageManager}
 }) {
   info('Lifting JavaScript-specific details');
 
@@ -23,14 +23,22 @@ export default async function ({
       devDependencies: eslintDevDependencies
     } = await liftEslint({configs: eslintConfigs, scope: configs.eslint.scope, projectRoot});
 
-    await liftPackage({projectRoot, scripts, tags, dependencies, devDependencies, eslintDevDependencies});
+    await liftPackage({
+      projectRoot,
+      scripts,
+      tags,
+      dependencies,
+      devDependencies,
+      packageManager,
+      eslintDevDependencies
+    });
 
     return deepmerge({nextSteps}, huskyResults);
   }
 
   if (eslintConfigs) warn('Config for ESLint not provided. Skipping ESLint configuration');
 
-  await liftPackage({projectRoot, scripts, tags, dependencies, devDependencies});
+  await liftPackage({projectRoot, scripts, tags, dependencies, devDependencies, packageManager});
 
   return huskyResults;
 }

@@ -14,7 +14,8 @@ suite('lift', () => {
   const eslintConfigs = any.listOf(any.word);
   const dependencies = any.listOf(any.word);
   const devDependencies = any.listOf(any.word);
-  const results = {...any.simpleObject(), scripts, tags, eslintConfigs, dependencies, devDependencies};
+  const packageManager = any.word();
+  const results = {...any.simpleObject(), scripts, tags, eslintConfigs, dependencies, devDependencies, packageManager};
   const huskyNextSteps = any.listOf(any.simpleObject);
   const huskyLiftResults = {nextSteps: huskyNextSteps};
 
@@ -46,7 +47,7 @@ suite('lift', () => {
     assert.deepEqual(liftResults, {nextSteps: [...eslintNextSteps, ...huskyNextSteps]});
     assert.calledWith(
       packageLifter.default,
-      {projectRoot, scripts, tags, dependencies, devDependencies, eslintDevDependencies}
+      {projectRoot, scripts, tags, dependencies, devDependencies, eslintDevDependencies, packageManager}
     );
   });
 
@@ -54,6 +55,11 @@ suite('lift', () => {
     const liftResults = await lift({projectRoot, results});
 
     assert.deepEqual(liftResults, {nextSteps: huskyNextSteps});
+
+    assert.calledWith(
+      packageLifter.default,
+      {projectRoot, scripts, tags, dependencies, devDependencies, packageManager}
+    );
   });
 
   test('that eslint-configs are not processed if config for eslint is not provided', async () => {

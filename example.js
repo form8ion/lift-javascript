@@ -15,7 +15,13 @@ const projectRoot = process.cwd();
     await lift({
       projectRoot,
       configs: {eslint: {scope: '@foo'}},
-      results: {dependencies: [], devDependencies: [], scripts: {}, eslintConfigs: []}
+      results: {
+        dependencies: [],
+        devDependencies: [],
+        scripts: {},
+        eslintConfigs: [],
+        packageManager: 'npm'
+      }
     });
   }
 })();
