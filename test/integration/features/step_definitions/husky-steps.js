@@ -18,7 +18,12 @@ Given('husky v4 is installed', async function () {
 });
 
 Given('husky is not installed', async function () {
-  td.when(this.execa('npm', ['ls', 'husky', '--json'])).thenResolve({stdout: JSON.stringify({})});
+  const error = new Error('Command failed with exit code 1: npm ls husky --json');
+  error.exitCode = 1;
+  error.stdout = JSON.stringify({});
+  error.command = 'npm ls husky --json';
+
+  td.when(this.execa('npm', ['ls', 'husky', '--json'])).thenReject(error);
 });
 
 Given('husky config is in v4 format', async function () {

@@ -61,9 +61,25 @@ suite('husky', () => {
   });
 
   test('that not having husky installed does not result in an error', async () => {
-    execa.default.withArgs('npm', ['ls', 'husky', '--json']).resolves({stdout: JSON.stringify({})});
+    const error = new Error('Command failed with exit code 1: npm ls husky --json');
+    error.command = 'npm ls husky --json';
+    execa.default.withArgs('npm', ['ls', 'husky', '--json']).throws(error);
     core.fileExists.resolves(any.boolean());
 
     await liftHusky({projectRoot});
+  });
+
+  test('that other errors from checking the husky installation are allowed to be thrown', async () => {
+    const message = any.sentence();
+    execa.default.withArgs('npm', ['ls', 'husky', '--json']).throws(new Error(message));
+    core.fileExists.resolves(any.boolean());
+
+    try {
+      await liftHusky({projectRoot});
+
+      throw new Error('An error should have been thrown by the check for husky installation details');
+    } catch (e) {
+      assert.equal(e.message, message);
+    }
   });
 });
