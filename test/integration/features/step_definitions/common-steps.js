@@ -2,6 +2,8 @@ import {resolve} from 'path';
 import {promises as fs} from 'fs';
 import stubbedFs from 'mock-fs';
 import td from 'testdouble';
+import importFresh from 'import-fresh';
+import clearModule from 'clear-module';
 import any from '@travi/any';
 import {After, Before, When} from 'cucumber';
 
@@ -13,9 +15,7 @@ let lift;
 Before(async function () {
   this.execa = td.replace('execa');
 
-  // eslint-disable-next-line import/no-extraneous-dependencies,import/no-unresolved
-  const jsLift = require('@form8ion/lift-javascript');
-  lift = jsLift.lift;
+  ({lift} = importFresh('@form8ion/lift-javascript'));
 
   this.existingScripts = any.simpleObject();
 
@@ -24,6 +24,8 @@ Before(async function () {
 
 After(function () {
   stubbedFs.restore();
+  td.reset();
+  clearModule('@form8ion/husky');
 });
 
 When('the scaffolder results are processed', async function () {

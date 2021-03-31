@@ -1,8 +1,8 @@
+import * as huskyLifter from '@form8ion/husky';
 import sinon from 'sinon';
 import any from '@travi/any';
 import {assert} from 'chai';
 import * as packageLifter from './package';
-import * as huskyLifter from './husky';
 import * as eslintLifter from './eslint/lift';
 import lift from './lift';
 
@@ -24,9 +24,9 @@ suite('lift', () => {
 
     sandbox.stub(packageLifter, 'default');
     sandbox.stub(eslintLifter, 'default');
-    sandbox.stub(huskyLifter, 'default');
+    sandbox.stub(huskyLifter, 'lift');
 
-    huskyLifter.default.withArgs({projectRoot}).resolves(huskyLiftResults);
+    huskyLifter.lift.withArgs({projectRoot}).resolves(huskyLiftResults);
   });
 
   teardown(() => sandbox.restore());
