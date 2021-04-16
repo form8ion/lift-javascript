@@ -1,6 +1,6 @@
 import {info, warn} from '@travi/cli-messages';
 import deepmerge from 'deepmerge';
-import {lift} from '@form8ion/husky';
+import {lift as liftHusky} from '@form8ion/husky';
 import liftPackage from './package';
 import liftEslint from './eslint';
 
@@ -15,7 +15,7 @@ export default async function ({
 }) {
   info('Lifting JavaScript-specific details');
 
-  const huskyResults = await lift({projectRoot});
+  const huskyResults = await liftHusky({projectRoot, packageManager});
 
   if (configIsProvidedForEslint(configs)) {
     const {

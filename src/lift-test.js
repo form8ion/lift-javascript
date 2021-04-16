@@ -26,7 +26,7 @@ suite('lift', () => {
     sandbox.stub(eslintLifter, 'default');
     sandbox.stub(huskyLifter, 'lift');
 
-    huskyLifter.lift.withArgs({projectRoot}).resolves(huskyLiftResults);
+    huskyLifter.lift.withArgs({projectRoot, packageManager}).resolves(huskyLiftResults);
   });
 
   teardown(() => sandbox.restore());
