@@ -23,22 +23,32 @@ export default async function ({
       devDependencies: eslintDevDependencies
     } = await liftEslint({configs: eslintConfigs, scope: configs.eslint.scope, projectRoot});
 
-    await liftPackage({
-      projectRoot,
-      scripts,
-      tags,
-      dependencies,
-      devDependencies,
-      packageManager,
-      eslintDevDependencies
-    });
+    await liftPackage(
+      deepmerge(
+        {
+          projectRoot,
+          scripts,
+          tags,
+          dependencies,
+          devDependencies,
+          packageManager,
+          eslintDevDependencies
+        },
+        huskyResults
+      )
+    );
 
-    return deepmerge({nextSteps}, huskyResults);
+    return {nextSteps};
   }
 
   if (eslintConfigs) warn('Config for ESLint not provided. Skipping ESLint configuration');
 
-  await liftPackage({projectRoot, scripts, tags, dependencies, devDependencies, packageManager});
+  await liftPackage(
+    deepmerge(
+      {projectRoot, scripts, tags, dependencies, devDependencies, packageManager},
+      huskyResults
+    )
+  );
 
-  return huskyResults;
+  return {};
 }

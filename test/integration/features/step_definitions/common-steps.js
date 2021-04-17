@@ -26,6 +26,7 @@ After(function () {
   stubbedFs.restore();
   td.reset();
   clearModule('@form8ion/husky');
+  clearModule('@form8ion/javascript-core');
 });
 
 When('the scaffolder results are processed', async function () {
@@ -39,7 +40,7 @@ When('the scaffolder results are processed', async function () {
 
   this.results = await lift({
     projectRoot: process.cwd(),
-    results: {scripts: this.scriptsResults, tags: this.tagsResults},
+    results: {scripts: this.scriptsResults, tags: this.tagsResults, packageManager: this.packageManager},
     ...this.eslintConfigScope && {configs: {eslint: {scope: this.eslintConfigScope}}}
   });
 });
