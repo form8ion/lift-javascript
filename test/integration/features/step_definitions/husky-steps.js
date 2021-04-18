@@ -67,7 +67,7 @@ Then('the next-steps do not include a warning about the husky config', async fun
 
 Then('husky is configured for {string}', async function (packageManager) {
   td.verify(this.execa(td.matchers.contains('. ~/.nvm/nvm.sh && nvm use && npm install')), {ignoreExtraArgs: true});
-  td.verify(this.execa(td.matchers.contains('husky')), {ignoreExtraArgs: true});
+  td.verify(this.execa(td.matchers.contains('husky@latest')), {ignoreExtraArgs: true});
   assert.equal(
     JSON.parse(await fs.readFile(`${process.cwd()}/package.json`, 'utf-8')).scripts.prepare,
     'husky install'
