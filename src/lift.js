@@ -3,6 +3,7 @@ import deepmerge from 'deepmerge';
 import {lift as liftHusky} from '@form8ion/husky';
 import liftPackage from './package';
 import liftEslint from './eslint';
+import resolvePackageManager from './package-manager';
 
 function configIsProvidedForEslint(configs) {
   return configs && configs.eslint;
@@ -11,10 +12,11 @@ function configIsProvidedForEslint(configs) {
 export default async function ({
   projectRoot,
   configs,
-  results: {scripts, tags, eslintConfigs, dependencies, devDependencies, packageManager}
+  results: {scripts, tags, eslintConfigs, dependencies, devDependencies, packageManager: manager}
 }) {
   info('Lifting JavaScript-specific details');
 
+  const packageManager = await resolvePackageManager({projectRoot, packageManager: manager});
   const huskyResults = await liftHusky({projectRoot, packageManager});
 
   if (configIsProvidedForEslint(configs)) {

@@ -5,6 +5,7 @@ import {Given, Then} from 'cucumber';
 import any from '@travi/any';
 import td from 'testdouble';
 import {assert} from 'chai';
+import {packageManagers} from '@form8ion/javascript-core';
 
 export async function assertHookContainsScript(hook, script) {
   const hookContents = await fs.readFile(`${process.cwd()}/.husky/${hook}`, 'utf-8');
@@ -66,7 +67,12 @@ Then('the next-steps do not include a warning about the husky config', async fun
 });
 
 Then('husky is configured for {string}', async function (packageManager) {
-  td.verify(this.execa(td.matchers.contains('. ~/.nvm/nvm.sh && nvm use && npm install')), {ignoreExtraArgs: true});
+  if (packageManagers.NPM === packageManager) {
+    td.verify(this.execa(td.matchers.contains('. ~/.nvm/nvm.sh && nvm use && npm install')), {ignoreExtraArgs: true});
+  }
+  if (packageManagers.YARN === packageManager) {
+    td.verify(this.execa(td.matchers.contains('. ~/.nvm/nvm.sh && nvm use && yarn add')), {ignoreExtraArgs: true});
+  }
   td.verify(this.execa(td.matchers.contains('husky@latest')), {ignoreExtraArgs: true});
   assert.equal(
     JSON.parse(await fs.readFile(`${process.cwd()}/package.json`, 'utf-8')).scripts.prepare,

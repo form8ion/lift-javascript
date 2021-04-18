@@ -2,6 +2,7 @@ Feature: Package Properties
 
   Scenario: Tags results when no existing keywords
     Given there are no existing keywords
+    And "npm" is the package manager
     And tags are provided in the results
     And husky is not installed
     When the scaffolder results are processed
@@ -9,6 +10,7 @@ Feature: Package Properties
 
   Scenario: Tags results when some keywords exist
     Given there are existing keywords
+    And "npm" is the package manager
     And tags are provided in the results
     And husky is not installed
     When the scaffolder results are processed
