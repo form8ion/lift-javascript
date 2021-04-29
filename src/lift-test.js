@@ -1,10 +1,10 @@
 import * as huskyLifter from '@form8ion/husky';
+import * as eslint from '@form8ion/eslint';
 import deepmerge from 'deepmerge';
 import sinon from 'sinon';
 import any from '@travi/any';
 import {assert} from 'chai';
 import * as packageLifter from './package';
-import * as eslintLifter from './eslint/lift';
 import * as packageManagerResolver from './package-manager';
 import lift from './lift';
 
@@ -34,7 +34,7 @@ suite('lift', () => {
     sandbox = sinon.createSandbox();
 
     sandbox.stub(packageLifter, 'default');
-    sandbox.stub(eslintLifter, 'default');
+    sandbox.stub(eslint, 'lift');
     sandbox.stub(packageManagerResolver, 'default');
     sandbox.stub(huskyLifter, 'lift');
 
@@ -53,7 +53,7 @@ suite('lift', () => {
       nextSteps: eslintNextSteps,
       devDependencies: eslintDevDependencies
     };
-    eslintLifter.default.withArgs({configs: eslintConfigs, scope, projectRoot}).resolves(eslintLiftResults);
+    eslint.lift.withArgs({configs: eslintConfigs, projectRoot}).resolves(eslintLiftResults);
 
     const liftResults = await lift({projectRoot, results, configs: {eslint: {scope}}});
 
@@ -65,22 +65,5 @@ suite('lift', () => {
         huskyLiftResults
       )
     );
-  });
-
-  test('that eslint-configs are not processed if configs are not provided', async () => {
-    const liftResults = await lift({projectRoot, results});
-
-    assert.deepEqual(liftResults, {});
-
-    assert.calledWith(
-      packageLifter.default,
-      deepmerge({projectRoot, scripts, tags, dependencies, devDependencies, packageManager}, huskyLiftResults)
-    );
-  });
-
-  test('that eslint-configs are not processed if config for eslint is not provided', async () => {
-    const liftResults = await lift({projectRoot, results, configs: any.simpleObject()});
-
-    assert.deepEqual(liftResults, {});
   });
 });
