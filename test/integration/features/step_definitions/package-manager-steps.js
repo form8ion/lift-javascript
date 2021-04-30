@@ -21,8 +21,4 @@ Given('an {string} lockfile exists', async function (packageManager) {
   this.packageManager = packageManager;
 });
 
-Given('{string} is the package manager', async function (packageManager) {
-  this.packageManager = packageManager;
-});
-
-// TODO: move the td.verify for pacakage installation here
+// TODO: move the td.verify for package installation here
