@@ -5,7 +5,6 @@ import {Given, Then} from 'cucumber';
 import any from '@travi/any';
 import td from 'testdouble';
 import {assert} from 'chai';
-import {packageManagers} from '@form8ion/javascript-core';
 
 export async function assertHookContainsScript(hook, script) {
   const hookContents = await fs.readFile(`${process.cwd()}/.husky/${hook}`, 'utf-8');
@@ -47,10 +46,6 @@ Given('husky config is in v5 format', async function () {
   await makeDir(`${process.cwd()}/.husky`);
 });
 
-Given('{string} is the package manager', async function (packageManager) {
-  this.packageManager = packageManager;
-});
-
 Then('the next-steps include a warning about the husky config', async function () {
   assert.deepInclude(
     this.results.nextSteps,
@@ -67,13 +62,15 @@ Then('the next-steps do not include a warning about the husky config', async fun
 });
 
 Then('husky is configured for {string}', async function (packageManager) {
+  const {packageManagers} = require('@form8ion/javascript-core');
+
   if (packageManagers.NPM === packageManager) {
     td.verify(this.execa(td.matchers.contains('. ~/.nvm/nvm.sh && nvm use && npm install')), {ignoreExtraArgs: true});
   }
   if (packageManagers.YARN === packageManager) {
     td.verify(this.execa(td.matchers.contains('. ~/.nvm/nvm.sh && nvm use && yarn add')), {ignoreExtraArgs: true});
   }
-  td.verify(this.execa(td.matchers.contains('husky@latest')), {ignoreExtraArgs: true});
+  td.verify(this.execa(td.matchers.contains(/(npm install|yarn add).*husky@latest/)), {ignoreExtraArgs: true});
   assert.equal(
     JSON.parse(await fs.readFile(`${process.cwd()}/package.json`, 'utf-8')).scripts.prepare,
     'husky install'
