@@ -27,8 +27,7 @@ suite('lift', () => {
     devDependencies,
     packageManager: manager
   };
-  const huskyNextSteps = any.listOf(any.simpleObject);
-  const huskyLiftResults = {nextSteps: huskyNextSteps};
+  const huskyLiftResults = {};
 
   setup(() => {
     sandbox = sinon.createSandbox();
@@ -47,17 +46,12 @@ suite('lift', () => {
   test('that results specific to js projects are lifted', async () => {
     const scope = any.word();
     const eslintDevDependencies = any.listOf(any.word);
-    const eslintNextSteps = any.listOf(any.simpleObject);
-    const eslintLiftResults = {
-      ...any.simpleObject(),
-      nextSteps: eslintNextSteps,
-      devDependencies: eslintDevDependencies
-    };
+    const eslintLiftResults = {...any.simpleObject(), devDependencies: eslintDevDependencies};
     eslint.lift.withArgs({configs: eslintConfigs, projectRoot}).resolves(eslintLiftResults);
 
     const liftResults = await lift({projectRoot, results, configs: {eslint: {scope}}});
 
-    assert.deepEqual(liftResults, {nextSteps: eslintNextSteps});
+    assert.deepEqual(liftResults, {});
     assert.calledWith(
       packageLifter.default,
       deepmerge(

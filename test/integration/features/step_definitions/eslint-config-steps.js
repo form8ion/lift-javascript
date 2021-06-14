@@ -36,14 +36,19 @@ Then('no eslint config file exists', async function () {
 Then('the yaml eslint config file contains the expected config', async function () {
   const config = load(await fs.readFile(pathToYamlConfig));
 
-  assert.deepEqual(config.extends, eslintConfigScope);
-});
+  if (this.additionalShareableConfigs) {
+    assert.equal(config.extends[0], eslintConfigScope);
+    assert.includeMembers(
+      config.extends,
+      this.additionalShareableConfigs.map(cfg => {
+        if ('string' === typeof cfg) return `${eslintConfigScope}/${cfg}`;
 
-Then('the next-steps are provided', async function () {
-  assert.includeDeepMembers(
-    this.results.nextSteps,
-    [{summary: `extend the following additional ESLint configs: ${this.additionalShareableConfigs.join(', ')}`}]
-  );
+        return `${eslintConfigScope}/${cfg.name}`;
+      })
+    );
+  } else {
+    assert.deepEqual(config.extends, eslintConfigScope);
+  }
 });
 
 Then('dependencies are defined for the additional configs', async function () {

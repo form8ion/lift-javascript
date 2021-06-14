@@ -14,7 +14,6 @@ export default async function ({
   const packageManager = await resolvePackageManager({projectRoot, packageManager: manager});
   const huskyResults = await liftHusky({projectRoot, packageManager});
   const {
-    nextSteps,
     devDependencies: eslintDevDependencies
   } = await liftEslint({projectRoot, configs: eslintConfigs});
 
@@ -33,5 +32,5 @@ export default async function ({
     )
   );
 
-  return {nextSteps};
+  return {};
 }
