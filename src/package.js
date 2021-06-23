@@ -1,6 +1,6 @@
 import {promises as fs} from 'fs';
 import {info} from '@travi/cli-messages';
-import {installDependencies, PROD_DEPENDENCY_TYPE, DEV_DEPENDENCY_TYPE} from '@form8ion/javascript-core';
+import {DEV_DEPENDENCY_TYPE, installDependencies, PROD_DEPENDENCY_TYPE} from '@form8ion/javascript-core';
 
 export default async function ({
   projectRoot,
@@ -24,7 +24,9 @@ export default async function ({
         {
           ...existingPackageJsonContents,
           scripts: {...existingPackageJsonContents.scripts, ...scripts},
-          keywords: existingPackageJsonContents.keywords ? [...existingPackageJsonContents.keywords, ...tags] : tags
+          ...tags && {
+            keywords: existingPackageJsonContents.keywords ? [...existingPackageJsonContents.keywords, ...tags] : tags
+          }
         },
         null,
         2

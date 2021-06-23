@@ -70,6 +70,21 @@ suite('package.json lifter', () => {
         JSON.stringify({...packageJsonContents, scripts: {}, keywords: [...existingKeywords, ...tags]}, null, 2)
       );
     });
+
+    test('that keywords are not modified when some keywords already exist but none are provided', async () => {
+      const existingKeywords = any.listOf(any.word);
+      fs.readFile
+        .withArgs(pathToPackageJson, 'utf8')
+        .resolves(JSON.stringify({...packageJsonContents, scripts: {}, keywords: existingKeywords}));
+
+      await liftPackage({projectRoot, scripts: {}});
+
+      assert.calledWith(
+        fs.writeFile,
+        pathToPackageJson,
+        JSON.stringify({...packageJsonContents, scripts: {}, keywords: existingKeywords}, null, 2)
+      );
+    });
   });
 
   suite('dependencies', () => {
