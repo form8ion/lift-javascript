@@ -57,7 +57,7 @@
     "@travi/any": "2.0.18",
     "ban-sensitive-files": "1.9.16",
     "chai": "4.3.4",
-    "clear-module": "4.1.1",
+    "clear-module": "4.1.2",
     "codecov": "3.8.3",
     "cucumber": "6.0.5",
     "cz-conventional-changelog": "3.3.0",
