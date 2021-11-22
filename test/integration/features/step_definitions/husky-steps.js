@@ -1,7 +1,7 @@
 import {promises as fs} from 'fs';
 import {fileExists} from '@form8ion/core';
 import makeDir from 'make-dir';
-import {Given, Then} from 'cucumber';
+import {Given, Then} from '@cucumber/cucumber';
 import any from '@travi/any';
 import td from 'testdouble';
 import {assert} from 'chai';

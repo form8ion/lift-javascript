@@ -1,7 +1,7 @@
 import {promises as fs} from 'fs';
 import any from '@travi/any';
 import {assert} from 'chai';
-import {Given, Then} from 'cucumber';
+import {Given, Then} from '@cucumber/cucumber';
 
 Given('there are no existing keywords', async function () {
   return undefined;

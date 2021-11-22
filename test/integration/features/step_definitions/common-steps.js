@@ -5,7 +5,7 @@ import td from 'testdouble';
 import importFresh from 'import-fresh';
 import clearModule from 'clear-module';
 import any from '@travi/any';
-import {After, Before, When} from 'cucumber';
+import {After, Before, When} from '@cucumber/cucumber';
 
 const pathToNodeModules = [__dirname, '..', '..', '..', '..', 'node_modules'];
 const stubbedNodeModules = stubbedFs.load(resolve(...pathToNodeModules));
