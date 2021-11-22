@@ -8,7 +8,6 @@ export default async function ({
   tags,
   dependencies,
   devDependencies,
-  eslintDevDependencies,
   packageManager
 }) {
   if (scripts || tags) {
@@ -38,7 +37,7 @@ export default async function ({
 
   await installDependencies(dependencies || [], PROD_DEPENDENCY_TYPE, projectRoot, packageManager);
   await installDependencies(
-    [...devDependencies || [], ...eslintDevDependencies || []],
+    [...devDependencies || []],
     DEV_DEPENDENCY_TYPE,
     projectRoot,
     packageManager

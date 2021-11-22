@@ -13,23 +13,21 @@ export default async function ({
 
   const packageManager = await resolvePackageManager({projectRoot, packageManager: manager});
   const huskyResults = await liftHusky({projectRoot, packageManager});
-  const {
-    devDependencies: eslintDevDependencies
-  } = await liftEslint({projectRoot, configs: eslintConfigs});
+  const eslintResults = await liftEslint({projectRoot, configs: eslintConfigs});
 
   await liftPackage(
-    deepmerge(
+    deepmerge.all([
       {
         projectRoot,
         scripts,
         tags,
         dependencies,
         devDependencies,
-        packageManager,
-        eslintDevDependencies
+        packageManager
       },
-      huskyResults
-    )
+      huskyResults,
+      eslintResults
+    ])
   );
 
   return {};

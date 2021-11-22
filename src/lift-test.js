@@ -45,8 +45,7 @@ suite('lift', () => {
 
   test('that results specific to js projects are lifted', async () => {
     const scope = any.word();
-    const eslintDevDependencies = any.listOf(any.word);
-    const eslintLiftResults = {...any.simpleObject(), devDependencies: eslintDevDependencies};
+    const eslintLiftResults = {...any.simpleObject(), devDependencies: any.listOf(any.word)};
     eslint.lift.withArgs({configs: eslintConfigs, projectRoot}).resolves(eslintLiftResults);
 
     const liftResults = await lift({projectRoot, results, configs: {eslint: {scope}}});
@@ -54,10 +53,11 @@ suite('lift', () => {
     assert.deepEqual(liftResults, {});
     assert.calledWith(
       packageLifter.default,
-      deepmerge(
-        {projectRoot, scripts, tags, dependencies, devDependencies, eslintDevDependencies, packageManager},
-        huskyLiftResults
-      )
+      deepmerge.all([
+        {projectRoot, scripts, tags, dependencies, devDependencies, packageManager},
+        huskyLiftResults,
+        eslintLiftResults
+      ])
     );
   });
 });
