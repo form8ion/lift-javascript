@@ -35,8 +35,10 @@ When('the scaffolder results are processed', async function () {
   await fs.writeFile(
     `${process.cwd()}/package.json`,
     JSON.stringify({
+      name: this.projectName,
       scripts: this.existingScripts,
-      keywords: this.existingKeywords
+      keywords: this.existingKeywords,
+      ...this.enginesNode && {engines: {node: this.enginesNode}}
     })
   );
 

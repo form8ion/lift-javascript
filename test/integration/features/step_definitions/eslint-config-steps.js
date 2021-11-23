@@ -4,7 +4,8 @@ import {Given, Then} from '@cucumber/cucumber';
 import {assert} from 'chai';
 import any from '@travi/any';
 import {fileExists} from '@form8ion/core';
-import td from 'testdouble';
+
+import {assertDevDependencyIsInstalled} from './dependencies-steps';
 
 const pathToYamlConfig = `${process.cwd()}/.eslintrc.yml`;
 const eslintConfigScope = `@${any.word()}`;
@@ -58,8 +59,5 @@ Then('dependencies are defined for the additional configs', async function () {
     return `${this.eslintConfigScope}/eslint-config-${config.name}`;
   });
 
-  td.verify(
-    this.execa(td.matchers.contains(new RegExp(`(npm install|yarn add).*${additionalConfigPackageNames.join(' ')}`))),
-    {ignoreExtraArgs: true}
-  );
+  assertDevDependencyIsInstalled(this.execa, additionalConfigPackageNames.join(' '));
 });

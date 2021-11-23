@@ -36,10 +36,5 @@ export default async function ({
   info('Installing dependencies');
 
   await installDependencies(dependencies || [], PROD_DEPENDENCY_TYPE, projectRoot, packageManager);
-  await installDependencies(
-    [...devDependencies || []],
-    DEV_DEPENDENCY_TYPE,
-    projectRoot,
-    packageManager
-  );
+  await installDependencies([...devDependencies || []], DEV_DEPENDENCY_TYPE, projectRoot, packageManager);
 }

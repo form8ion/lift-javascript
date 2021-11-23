@@ -32,3 +32,9 @@ Then('the additional scripts exist', async function () {
 
   Object.entries(this.scriptsResults).forEach(([scriptName, script]) => assert.equal(scripts[scriptName], script));
 });
+
+Then('the script is added for ensuring the node engines requirement is met', async function () {
+  const {scripts} = JSON.parse(await fs.readFile(`${process.cwd()}/package.json`, 'utf8'));
+
+  assert.equal(scripts['lint:engines'], 'ls-engines');
+});

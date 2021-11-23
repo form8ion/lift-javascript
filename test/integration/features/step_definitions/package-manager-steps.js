@@ -19,6 +19,5 @@ Given('an {string} lockfile exists', async function (packageManager) {
   }
 
   this.packageManager = packageManager;
+  this.projectName = any.word();
 });
-
-// TODO: move the td.verify for package installation here
