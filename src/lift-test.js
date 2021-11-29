@@ -1,4 +1,3 @@
-import * as huskyLifter from '@form8ion/husky';
 import * as eslint from '@form8ion/eslint';
 import deepmerge from 'deepmerge';
 
@@ -8,6 +7,7 @@ import {assert} from 'chai';
 
 import * as enhancers from './enhancers/apply';
 import * as enginesEnhancer from './enhancers/engines';
+import * as enhancedEnhancers from './enhancers/enhanced-enhancers';
 import * as packageLifter from './package';
 import * as packageManagerResolver from './package-manager';
 import lift from './lift';
@@ -31,7 +31,6 @@ suite('lift', () => {
     devDependencies,
     packageManager: manager
   };
-  const huskyLiftResults = {};
 
   setup(() => {
     sandbox = sinon.createSandbox();
@@ -39,10 +38,9 @@ suite('lift', () => {
     sandbox.stub(packageLifter, 'default');
     sandbox.stub(eslint, 'lift');
     sandbox.stub(packageManagerResolver, 'default');
-    sandbox.stub(huskyLifter, 'lift');
     sandbox.stub(enhancers, 'default');
+    sandbox.stub(enhancedEnhancers, 'enhanceHuskyEnhancer');
 
-    huskyLifter.lift.withArgs({projectRoot, packageManager}).resolves(huskyLiftResults);
     packageManagerResolver.default.withArgs({projectRoot, packageManager: manager}).resolves(packageManager);
   });
 
@@ -50,10 +48,14 @@ suite('lift', () => {
 
   test('that results specific to js projects are lifted', async () => {
     const scope = any.word();
+    const enhancedHuskyEnhancer = () => undefined;
     const eslintLiftResults = {...any.simpleObject(), devDependencies: any.listOf(any.word)};
     const enhancerResults = any.simpleObject();
     eslint.lift.withArgs({configs: eslintConfigs, projectRoot}).resolves(eslintLiftResults);
-    enhancers.default.withArgs({results, enhancers: [enginesEnhancer], projectRoot}).resolves(enhancerResults);
+    enhancedEnhancers.enhanceHuskyEnhancer.withArgs(packageManager).returns(enhancedHuskyEnhancer);
+    enhancers.default
+      .withArgs({results, enhancers: [enhancedHuskyEnhancer, enginesEnhancer], projectRoot})
+      .resolves(enhancerResults);
 
     const liftResults = await lift({projectRoot, results, configs: {eslint: {scope}}});
 
@@ -62,7 +64,6 @@ suite('lift', () => {
       packageLifter.default,
       deepmerge.all([
         {projectRoot, scripts, tags, dependencies, devDependencies, packageManager},
-        huskyLiftResults,
         eslintLiftResults,
         enhancerResults
       ])
