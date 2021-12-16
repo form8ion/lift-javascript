@@ -12,6 +12,6 @@ export async function lift({projectRoot}) {
   return {
     devDependencies: ['ls-engines'],
     scripts: {'lint:engines': 'ls-engines'},
-    badges: {consumer: {node: {img: `https://img.shields.io/node/v/${name}.svg`, text: 'node'}}}
+    badges: {consumer: {node: {img: `https://img.shields.io/node/v/${name}?logo=node.js`, text: 'node'}}}
   };
 }

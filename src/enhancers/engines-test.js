@@ -44,6 +44,9 @@ suite('engines enhancer', () => {
 
     assert.equal(scripts['lint:engines'], 'ls-engines');
     assert.deepEqual(devDependencies, ['ls-engines']);
-    assert.deepEqual(badges.consumer.node, {img: `https://img.shields.io/node/v/${projectName}.svg`, text: 'node'});
+    assert.deepEqual(
+      badges.consumer.node,
+      {img: `https://img.shields.io/node/v/${projectName}?logo=node.js`, text: 'node'}
+    );
   });
 });

@@ -12,7 +12,7 @@ Then('the engines badge is added to the consumer group', async function () {
   assert.deepEqual(
     badges.consumer.node,
     {
-      img: `https://img.shields.io/node/v/${this.projectName}.svg`,
+      img: `https://img.shields.io/node/v/${this.projectName}?logo=node.js`,
       text: 'node'
     }
   );
