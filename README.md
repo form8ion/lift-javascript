@@ -3,6 +3,8 @@
 [lift](https://github.com/form8ion/lift) [enhancer](https://github.com/form8ion/lift#enhancers-object-optional)
 for details specific to the JavaScript language
 
+**REPLACED BY [@form8ion/javascript](https://github.com/form8ion/javascript)**
+
 <!--status-badges start -->
 
 [![Node CI Workflow Status][github-actions-ci-badge]][github-actions-ci-link]
